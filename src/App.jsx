@@ -1,5 +1,5 @@
 import './App.css';
-import { getMovieList, searcMovie } from "./api"
+import { getMovieList, searchMovie } from "./api"
 import { useEffect, useState } from "react";
 
 const App = () => {
@@ -13,8 +13,11 @@ const App = () => {
      })
   }, [])
 
-  const search = (q) => {
-    console.log({ q })
+  const search = async (q) => {
+    if(q.length > 3) {
+      const querySearch = await searchMovie(q)
+      setPopularMovies(querySearch.results)
+    }
   }
 
   const PopularMovieList = () => {
@@ -38,7 +41,7 @@ const App = () => {
       <header className="App-header">
         <h1>CHECK YOUR FAVORITE MOVIES</h1>
         <input 
-          placeholder='type your favourite movie!' 
+          placeholder='search your favourite movie!' 
           className='Movie-search'
           onChange={({target})  => search(target.value)}
           />
